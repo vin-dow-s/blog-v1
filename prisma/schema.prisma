@@ -10,6 +10,7 @@ datasource db {
 model Post {
   id          BigInt   @id @unique(map: "id") @default(autoincrement()) @db.UnsignedBigInt
   title       String   @db.Text
+  slug        String   @unique @db.VarChar(255)
   category    String   @db.Text
   description String   @db.Text
   publishedAt DateTime @db.Date
