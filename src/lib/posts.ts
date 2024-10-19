@@ -1,6 +1,8 @@
-import { PrismaClient } from '@prisma/client'
+'use server'
+
 import { z } from 'zod'
 import slugify from 'slugify'
+import { prisma } from './prisma'
 
 const PostSchema = z.object({
     title: z.string(),
@@ -14,8 +16,6 @@ const PostSchema = z.object({
 type Post = z.infer<typeof PostSchema> & {
     content?: string
 }
-
-const prisma = new PrismaClient()
 
 export const getPosts = async () => {
     try {
@@ -53,6 +53,7 @@ export const getPost = async (slug: string) => {
 }
 
 export const createPost = async (postData: Post) => {
+    console.log('🚀 ~ createPost ~ postData:', postData)
     try {
         const validatedPost = PostSchema.parse(postData)
         const slug = slugify(validatedPost.title, { lower: true })
