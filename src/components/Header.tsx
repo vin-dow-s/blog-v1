@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export const Header = () => {
     return (
-        <header className="flex items-center rounded-lg bg-red-500 p-4">
+        <header className="m-4 flex items-center rounded-lg bg-red-500 p-4">
             <nav className="flex w-full items-center">
                 <Link href="/" className="font-mono">
                     <span className="sr-only">Blog Test Home</span>{' '}

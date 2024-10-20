@@ -10,24 +10,29 @@ const PostSchema = z.object({
     category: z.string(),
     description: z.string(),
     publishedAt: z.coerce.date(),
-    isPublished: z.boolean().optional().default(false),
+    isPublished: z.boolean().default(false),
 })
 
-type Post = z.infer<typeof PostSchema> & {
+export type Post = z.infer<typeof PostSchema> & {
+    id?: number
     content?: string
 }
 
 export const getPosts = async () => {
     try {
         const posts = await prisma.post.findMany()
-        console.log('Fetched posts array length:', posts.length)
 
         if (!posts || posts.length === 0) {
             console.log('No posts found')
             return []
         }
 
-        return posts
+        const sanitizedPosts = posts.map((post) => ({
+            ...post,
+            isPublished: post.isPublished ?? false,
+        }))
+
+        return sanitizedPosts
     } catch (error) {
         console.error('Error fetching posts:', error)
         throw error
@@ -53,11 +58,9 @@ export const getPost = async (slug: string) => {
 }
 
 export const createPost = async (postData: Post) => {
-    console.log('🚀 ~ createPost ~ postData:', postData)
     try {
         const validatedPost = PostSchema.parse(postData)
         const slug = slugify(validatedPost.title, { lower: true })
-        console.log('🚀 ~ createPost ~ slug:', slug)
 
         const newPost = await prisma.post.create({
             data: {
@@ -65,7 +68,6 @@ export const createPost = async (postData: Post) => {
                 slug,
             },
         })
-        console.log('🚀 ~ createPost ~ newPost:', newPost)
 
         return newPost
     } catch (error) {
@@ -82,9 +84,13 @@ export const updatePost = async (slug: string, postData: Partial<Post>) => {
             where: { slug },
             data: validatedPost,
         })
-        console.log('🚀 ~ updatePost ~ updatedPost:', updatedPost)
 
-        return updatedPost
+        const sanitizedPost = {
+            ...updatedPost,
+            isPublished: updatedPost.isPublished ?? false,
+        }
+
+        return sanitizedPost
     } catch (error) {
         console.error('Error updating post:', error)
         throw error
@@ -97,7 +103,12 @@ export const deletePost = async (slug: string) => {
             where: { slug },
         })
 
-        return deletedPost
+        const sanitizedPost = {
+            ...deletedPost,
+            isPublished: deletedPost.isPublished ?? false,
+        }
+
+        return sanitizedPost
     } catch (error) {
         console.error('Error deleting post:', error)
         throw error

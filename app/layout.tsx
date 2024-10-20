@@ -30,11 +30,11 @@ export default function RootLayout({
         <html lang="en" className="h-full">
             <body
                 className={cn(
-                    `${geistSans.variable} ${geistMono.variable} m-auto p-4 antialiased`,
+                    `${geistSans.variable} ${geistMono.variable} antialiased`,
                 )}
             >
                 <Header />
-                <main>{children}</main>
+                <main className="mx-auto px-4">{children}</main>
                 <Footer />
             </body>
         </html>
