@@ -13,10 +13,9 @@ model Post {
   slug        String   @unique @db.VarChar(255)
   category    String   @db.Text
   description String   @db.Text
+  content     String   @db.Text
   publishedAt DateTime @db.Date
   isPublished Boolean  @default(false)
-
-  @@map("posts")
 }
 
 model Account {

@@ -9,15 +9,15 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import PostActionsDropdown from '@/components/PostActionsDropdown'
-import { Post } from '@/lib/posts'
+import { PostActionsDropdown } from '@/components/PostActionsDropdown'
 import { useState } from 'react'
+import { Post } from '@/lib/schemas'
 
 type PostTableProps = Readonly<{
     posts: Post[]
 }>
 
-export default function PostTable({ posts }: PostTableProps) {
+export const PostTable = ({ posts }: PostTableProps) => {
     const [postList, setPostList] = useState(posts)
 
     const handleStatusChange = (updatedPost: Post) => {
@@ -41,7 +41,7 @@ export default function PostTable({ posts }: PostTableProps) {
                     <TableHead>Title</TableHead>
                     <TableHead>Category</TableHead>
                     <TableHead>Description</TableHead>
-                    <TableHead>Published Date</TableHead>
+                    <TableHead>Publication Date</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead></TableHead>
                 </TableRow>

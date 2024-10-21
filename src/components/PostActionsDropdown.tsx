@@ -7,8 +7,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Ellipsis } from 'lucide-react'
-import { deletePost, Post, updatePost } from '@/lib/posts'
+import { deletePost, updatePost } from '@/lib/posts'
+import { Button } from './ui/button'
+import { DotsHorizontalIcon } from '@radix-ui/react-icons'
+import { Post } from '@/lib/schemas'
+import Link from 'next/link'
 
 type PostActionsDropdownProps = Readonly<{
     post: Post
@@ -16,14 +19,14 @@ type PostActionsDropdownProps = Readonly<{
     onPostDelete: (deletedPost: Post) => void
 }>
 
-export default function PostActionsDropdown({
+export const PostActionsDropdown = ({
     post,
     onStatusChange,
     onPostDelete,
-}: PostActionsDropdownProps) {
+}: PostActionsDropdownProps) => {
     const handleStatusChange = async () => {
         try {
-            const updatedPost = await updatePost(post.slug, {
+            const updatedPost = await updatePost(post.id, {
                 isPublished: !post.isPublished,
             })
             onStatusChange(updatedPost)
@@ -34,25 +37,35 @@ export default function PostActionsDropdown({
 
     const handleDeletePost = async () => {
         try {
-            const deletedPost = await deletePost(post.slug)
+            const deletedPost = await deletePost(post.id)
             onPostDelete(deletedPost)
         } catch (error) {
             console.error('Error deleting post:', error)
         }
     }
 
+    const statusText = post.isPublished ? 'Unpublish' : 'Publish'
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <Ellipsis />
+                <Button variant="ghost" className="size-8 p-0">
+                    <span className="sr-only">Open menu</span>
+                    <DotsHorizontalIcon className="size-4" />
+                </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href={`/admin/edit/${post.slug}`}>Edit</Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleStatusChange}>
-                    {post.isPublished ? 'Unpublish' : 'Publish'}
+                    {statusText}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleDeletePost}>
+                <DropdownMenuItem
+                    onClick={handleDeletePost}
+                    className="text-red-600 focus:text-red-600"
+                >
                     Delete
                 </DropdownMenuItem>
             </DropdownMenuContent>

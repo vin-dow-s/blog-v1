@@ -1,22 +1,8 @@
 'use server'
 
-import { z } from 'zod'
 import slugify from 'slugify'
 import { prisma } from './prisma'
-
-const PostSchema = z.object({
-    title: z.string(),
-    slug: z.string(),
-    category: z.string(),
-    description: z.string(),
-    publishedAt: z.coerce.date(),
-    isPublished: z.boolean().default(false),
-})
-
-export type Post = z.infer<typeof PostSchema> & {
-    id?: number
-    content?: string
-}
+import { Post, PostFormValues, PostSchema } from './schemas'
 
 export const getPosts = async () => {
     try {
@@ -57,7 +43,7 @@ export const getPost = async (slug: string) => {
     }
 }
 
-export const createPost = async (postData: Post) => {
+export const createPost = async (postData: PostFormValues) => {
     try {
         const validatedPost = PostSchema.parse(postData)
         const slug = slugify(validatedPost.title, { lower: true })
@@ -76,39 +62,29 @@ export const createPost = async (postData: Post) => {
     }
 }
 
-export const updatePost = async (slug: string, postData: Partial<Post>) => {
+export const updatePost = async (id: number, postData: Partial<Post>) => {
     try {
         const validatedPost = PostSchema.partial().parse(postData)
 
         const updatedPost = await prisma.post.update({
-            where: { slug },
+            where: { id },
             data: validatedPost,
         })
 
-        const sanitizedPost = {
-            ...updatedPost,
-            isPublished: updatedPost.isPublished ?? false,
-        }
-
-        return sanitizedPost
+        return updatedPost
     } catch (error) {
         console.error('Error updating post:', error)
         throw error
     }
 }
 
-export const deletePost = async (slug: string) => {
+export const deletePost = async (id: number) => {
     try {
         const deletedPost = await prisma.post.delete({
-            where: { slug },
+            where: { id },
         })
 
-        const sanitizedPost = {
-            ...deletedPost,
-            isPublished: deletedPost.isPublished ?? false,
-        }
-
-        return sanitizedPost
+        return deletedPost
     } catch (error) {
         console.error('Error deleting post:', error)
         throw error
