@@ -6,13 +6,9 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
-import { getPosts } from '@/lib/posts'
-import Image from 'next/image'
 import Link from 'next/link'
 
-export default async function Home() {
-    const posts = await getPosts()
-
+const Home = async () => {
     return (
         /*{' '}
             <div className="">
@@ -176,3 +172,5 @@ export default async function Home() {
         </section>
     )
 }
+
+export default Home

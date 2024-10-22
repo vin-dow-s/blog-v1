@@ -21,11 +21,11 @@ export const metadata: Metadata = {
     description: 'This is a Blog Test',
 }
 
-export default function RootLayout({
+const RootLayout = ({
     children,
 }: Readonly<{
     children: React.ReactNode
-}>) {
+}>) => {
     return (
         <html lang="en" className="h-full">
             <body
@@ -40,3 +40,5 @@ export default function RootLayout({
         </html>
     )
 }
+
+export default RootLayout

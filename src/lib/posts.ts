@@ -2,9 +2,11 @@
 
 import slugify from 'slugify'
 import { prisma } from './prisma'
-import { Post, PostFormValues, PostSchema } from './schemas'
+import { actionClient } from './safe-action'
+import { Post, PostSchema } from './schemas'
+import { z } from 'zod'
 
-export const getPosts = async () => {
+export const getPosts = actionClient.action(async () => {
     try {
         const posts = await prisma.post.findMany()
 
@@ -13,54 +15,54 @@ export const getPosts = async () => {
             return []
         }
 
-        const sanitizedPosts = posts.map((post) => ({
-            ...post,
-            isPublished: post.isPublished ?? false,
-        }))
-
-        return sanitizedPosts
+        return posts
     } catch (error) {
         console.error('Error fetching posts:', error)
         throw error
     }
-}
+})
 
-export const getPost = async (slug: string) => {
-    try {
-        const post = await prisma.post.findUnique({
-            where: { slug },
-        })
+export const getPostById = actionClient
+    .schema(z.number())
+    .action(async ({ parsedInput }) => {
+        const id = parsedInput
 
-        if (!post) {
-            console.log('Post not found')
-            return null
+        try {
+            const post = await prisma.post.findUnique({
+                where: { id },
+            })
+
+            if (!post) {
+                console.log('Post not found')
+                return null
+            }
+
+            return post
+        } catch (error) {
+            console.error('Error fetching post by ID:', error)
+            throw error
         }
+    })
 
-        return post
-    } catch (error) {
-        console.error('Error fetching post by ID:', error)
-        throw error
-    }
-}
+export const createPost = actionClient
+    .schema(PostSchema)
+    .action(async ({ parsedInput }) => {
+        try {
+            const slug = slugify(parsedInput.title, { lower: true })
 
-export const createPost = async (postData: PostFormValues) => {
-    try {
-        const validatedPost = PostSchema.parse(postData)
-        const slug = slugify(validatedPost.title, { lower: true })
+            const newPost = await prisma.post.create({
+                data: {
+                    ...parsedInput,
+                    slug,
+                },
+            })
 
-        const newPost = await prisma.post.create({
-            data: {
-                ...validatedPost,
-                slug,
-            },
-        })
-
-        return newPost
-    } catch (error) {
-        console.error('Error creating post:', error)
-        throw error
-    }
-}
+            return newPost
+        } catch (error) {
+            console.error('Error creating post:', error)
+            throw error
+        }
+    })
 
 export const updatePost = async (id: number, postData: Partial<Post>) => {
     try {

@@ -181,6 +181,9 @@ export const PostForm = ({ onSubmit, postData, isEditing }: PostFormProps) => {
                 <Button type="submit">
                     {isEditing ? 'Update Post' : 'Create Post'}
                 </Button>
+                <Button variant="secondary" type="reset">
+                    Reset
+                </Button>
             </form>
         </Form>
     )

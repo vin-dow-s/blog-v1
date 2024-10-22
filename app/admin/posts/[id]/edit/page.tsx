@@ -1,44 +1,46 @@
 'use client'
 
 import { PostForm } from '@/components/PostForm'
-import { getPost, updatePost } from '@/lib/posts'
+import { Button } from '@/components/ui/button'
+import { getPostById, updatePost } from '@/lib/posts'
 import { Post, PostFormValues } from '@/lib/schemas'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-export default function EditPost({
+const EditPostPage = ({
     params,
 }: Readonly<{
-    params: { slug: string }
-}>) {
+    params: { id: number }
+}>) => {
     const [postData, setPostData] = useState<Post>()
     const router = useRouter()
 
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const post = await getPost(params.slug)
+                const result = await getPostById(Number(params.id))
 
-                if (!post) {
-                    router.push('/admin')
+                if (!result?.data) {
+                    router.push('/admin/posts')
                     return
                 }
 
-                setPostData(post)
+                setPostData(result.data)
             } catch (error) {
                 console.error('Error fetching post:', error)
             }
         }
 
         fetchPost()
-    }, [params.slug, router])
+    }, [params.id, router])
 
     const handleFormSubmit = async (formData: PostFormValues) => {
         if (!postData) return
 
         try {
             await updatePost(postData.id, formData)
-            router.push('/admin')
+            router.push('/admin/posts')
         } catch (error) {
             console.error('Error updating post:', error)
         }
@@ -50,6 +52,13 @@ export default function EditPost({
 
     return (
         <section className="my-4 rounded-lg border p-4">
+            <nav className="flex items-center justify-between">
+                <h2 className="text-lg font-bold">Admin Panel</h2>
+                <Button asChild variant="secondary">
+                    <Link href="/admin/posts">Back to Posts</Link>
+                </Button>
+            </nav>
+            <h3>Edit Post</h3>
             <PostForm
                 onSubmit={handleFormSubmit}
                 postData={postData}
@@ -58,3 +67,5 @@ export default function EditPost({
         </section>
     )
 }
+
+export default EditPostPage

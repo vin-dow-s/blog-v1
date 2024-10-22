@@ -1,13 +1,16 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import slugify from 'slugify'
-import { Button } from '@/components/ui/button'
 import { createPost } from '@/lib/posts'
-import Link from 'next/link'
 import { PostForm } from '@/components/PostForm'
 import { PostFormValues } from '@/lib/schemas'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
-export default function CreatePostForm() {
+const CreatePostPage = () => {
+    const router = useRouter()
+
     const addSlugAndDate = (formData: PostFormValues) => {
         const slug = slugify(formData.title, { lower: true })
         const publishedAt = new Date()
@@ -24,6 +27,8 @@ export default function CreatePostForm() {
             const postData = addSlugAndDate(formData)
 
             await createPost(postData)
+
+            router.push('/admin/posts')
         } catch (error) {
             console.error('Error creating post:', error)
         }
@@ -31,16 +36,16 @@ export default function CreatePostForm() {
 
     return (
         <section className="my-4 rounded-lg border p-4">
-            <div className="mb-8">
-                <Button
-                    asChild
-                    variant="secondary"
-                    className="rounded-lg text-black"
-                >
-                    <Link href={`/admin`}>Back to posts</Link>
+            <nav className="flex items-center justify-between">
+                <h2 className="text-lg font-bold">Admin Panel</h2>
+                <Button asChild variant="secondary">
+                    <Link href="/admin/posts">Back to Posts</Link>
                 </Button>
-            </div>
+            </nav>
+            <h3>Create a Post</h3>
             <PostForm onSubmit={handleFormSubmit} />
         </section>
     )
 }
+
+export default CreatePostPage

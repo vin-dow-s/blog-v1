@@ -8,22 +8,22 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { deletePost, updatePost } from '@/lib/posts'
-import { Button } from './ui/button'
+import { Button } from '../../../src/components/ui/button'
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Post } from '@/lib/schemas'
 import Link from 'next/link'
 
-type PostActionsDropdownProps = Readonly<{
+type PostsTableDropdownProps = Readonly<{
     post: Post
     onStatusChange: (updatedPost: Post) => void
     onPostDelete: (deletedPost: Post) => void
 }>
 
-export const PostActionsDropdown = ({
+const PostsTableDropdown = ({
     post,
     onStatusChange,
     onPostDelete,
-}: PostActionsDropdownProps) => {
+}: PostsTableDropdownProps) => {
     const handleStatusChange = async () => {
         try {
             const updatedPost = await updatePost(post.id, {
@@ -56,7 +56,7 @@ export const PostActionsDropdown = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuItem asChild>
-                    <Link href={`/admin/edit/${post.slug}`}>Edit</Link>
+                    <Link href={`/admin/posts/${post.id}/edit`}>Edit</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleStatusChange}>
                     {statusText}
@@ -72,3 +72,5 @@ export const PostActionsDropdown = ({
         </DropdownMenu>
     )
 }
+
+export default PostsTableDropdown
