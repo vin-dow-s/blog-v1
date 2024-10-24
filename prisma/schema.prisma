@@ -11,12 +11,20 @@ model Post {
   id          Int      @id @unique(map: "id") @default(autoincrement()) @db.UnsignedInt
   title       String   @db.Text
   slug        String   @unique @db.VarChar(255)
-  category    String   @db.Text
+  categoryId  Int 
+  category    Category @relation(fields: [categoryId], references: [id])
   description String   @db.Text
   content     String   @db.Text
   publishedAt DateTime @db.Date
   isPublished Boolean  @default(false)
 }
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  posts     Post[]
+}
+
 
 model Account {
   id                 String    @id @default(cuid())

@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+import { BookOpenCheck, Pencil, Trash } from 'lucide-react'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,10 +10,9 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { deletePost, updatePost } from '@/lib/posts'
-import { Button } from '../../../src/components/ui/button'
-import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Post } from '@/lib/schemas'
-import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 
 type PostsTableDropdownProps = Readonly<{
     post: Post
@@ -48,24 +49,35 @@ const PostsTableDropdown = ({
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger>
-                <Button variant="ghost" className="size-8 p-0">
+            <DropdownMenuTrigger asChild>
+                <Button
+                    variant="ghost"
+                    className="size-8 p-0 hover:bg-gray-200"
+                >
                     <span className="sr-only">Open menu</span>
                     <DotsHorizontalIcon className="size-4" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuItem asChild>
-                    <Link href={`/admin/posts/${post.id}/edit`}>Edit</Link>
+                <DropdownMenuItem asChild className="gap-4 p-2">
+                    <Link href={`/admin/posts/${post.id}/edit`}>
+                        <Pencil />
+                        Edit
+                    </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleStatusChange}>
+                <DropdownMenuItem
+                    onClick={handleStatusChange}
+                    className="gap-4 p-2"
+                >
+                    <BookOpenCheck />
                     {statusText}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                     onClick={handleDeletePost}
-                    className="text-red-600 focus:text-red-600"
+                    className="gap-4 p-2 text-red-600 focus:text-red-600"
                 >
+                    <Trash />
                     Delete
                 </DropdownMenuItem>
             </DropdownMenuContent>

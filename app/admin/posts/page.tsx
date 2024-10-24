@@ -1,33 +1,26 @@
 import { getPosts } from '@/lib/posts'
-import PostsTable from './posts-table'
+import PostsTable from '../posts/_components/posts-table'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 const PostsPage = async () => {
     const result = await getPosts()
 
-    if (!result) {
-        console.error('Error fetching posts:', result)
-        return <p>Error fetching posts. Please try again later.</p>
+    if (!result?.data) {
+        notFound()
     }
 
-    // Get the actual posts from the result
-    const posts = result.data
-
-    // Handle case where no posts are found
-    if (!posts) {
-        return <p>No posts found.</p>
-    }
+    const posts = result?.data
 
     return (
-        <section className="my-4 rounded-lg border p-4">
-            <nav className="flex items-center justify-between">
-                <h2 className="text-lg font-bold">Admin Panel</h2>
+        <section className="mx-4 rounded-lg border px-4">
+            <nav className="flex items-center justify-between p-8 px-2 pb-12">
+                <h2 className="text-lg font-bold">Posts</h2>
                 <Button asChild>
                     <Link href="/admin/posts/create">Create a Post</Link>
                 </Button>
             </nav>
-            <h3 className="text-lg">Posts</h3>
             <PostsTable posts={posts} />
         </section>
     )

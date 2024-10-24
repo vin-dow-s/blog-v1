@@ -2,16 +2,14 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import { cn } from '@/lib/utils'
-import { Header } from '@/components/Header'
-import { Footer } from '@/components/Footer'
 
 const geistSans = localFont({
-    src: './fonts/GeistVF.woff',
+    src: './public/fonts/GeistVF.woff',
     variable: '--font-geist-sans',
     weight: '100 900',
 })
 const geistMono = localFont({
-    src: './fonts/GeistMonoVF.woff',
+    src: './public/fonts/GeistMonoVF.woff',
     variable: '--font-geist-mono',
     weight: '100 900',
 })
@@ -30,12 +28,10 @@ const RootLayout = ({
         <html lang="en" className="h-full">
             <body
                 className={cn(
-                    `${geistSans.variable} ${geistMono.variable} antialiased`,
+                    `${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`,
                 )}
             >
-                <Header />
-                <main className="mx-auto px-4">{children}</main>
-                <Footer />
+                {children}
             </body>
         </html>
     )

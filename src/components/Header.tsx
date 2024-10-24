@@ -9,7 +9,13 @@ export const Header = () => {
                     <span className="sr-only">Blog Test Home</span>{' '}
                     <h1>Blog Test</h1>{' '}
                 </Link>
-                <div className="ml-auto">
+                <div className="ml-auto flex gap-2">
+                    <Link
+                        className={buttonVariants({ variant: 'destructive' })}
+                        href="/admin/posts"
+                    >
+                        Admin
+                    </Link>
                     <Link
                         className={buttonVariants({ variant: 'outline' })}
                         href="/contact"
