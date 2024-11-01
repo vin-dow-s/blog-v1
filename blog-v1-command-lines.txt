@@ -1,0 +1,41 @@
+pnpm dlx shadcn@latest init (Yes -> New York -> Neutral -> CSS variables)
+cd ->
+pnpm install
+pnpm up -i --latest
+
++ .prettierrc 
++ eslint.config.mjs
+
+pnpm i @eslint/compat @eslint/js eslint-plugin-react-hooks eslint-plugin-react eslint-plugin-tailwindcss globals
+pnpm i typescript-eslint
+pnpm i -D prettier prettier-plugin-tailwindcss
+pnpm i zod
+pnpm install prisma @prisma/client
+npx prisma init
+
+pnpm dlx shadcn@latest add button input card
+pnpm dlx shadcn@latest add table
+pnpm dlx shadcn@latest add form
+pnpm dlx shadcn@latest add select
+pnpm dlx shadcn@latest add radio-group
+pnpm dlx shadcn@latest add dropdown-menu
+pnpm dlx shadcn@latest add sidebar
+
+pnpm i slugify
+  
+pnpm prisma db pull
+pnpm prisma generate       
+pnpm prisma db push 
+
+pnpm add react-hook-form   
+
+pnpm prisma migrate dev
+
+pnpm i next-auth
+pnpm i @auth/prisma-adapter
+
+pnpm i lucide-react
+pnpm i react-quill
+pnpm add next-safe-action zod
+pnpm install html-react-parser dompurify
+pnpm install -D @tailwindcss/typography

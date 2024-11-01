@@ -5,7 +5,15 @@ export const CategorySchema = z.object({
     name: z.string(),
 })
 
-export type Category = z.infer<typeof CategorySchema>
+export type Category = z.infer<typeof CategorySchema> & {
+    postCount?: number
+}
+
+export const CategoryFormSchema = z.object({
+    name: z.string(),
+})
+
+export type CategoryFormValues = z.infer<typeof CategoryFormSchema>
 
 export const PostSchema = z.object({
     title: z.string(),

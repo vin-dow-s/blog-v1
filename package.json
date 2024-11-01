@@ -10,8 +10,6 @@
     },
     "dependencies": {
         "@auth/prisma-adapter": "^2.7.2",
-        "@eslint/compat": "^1.2.1",
-        "@eslint/js": "^9.13.0",
         "@hookform/resolvers": "^3.9.0",
         "@prisma/client": "^5.21.1",
         "@radix-ui/react-dialog": "^1.1.2",
@@ -26,16 +24,12 @@
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "dompurify": "^3.1.7",
-        "eslint-plugin-react": "^7.37.2",
-        "eslint-plugin-react-hooks": "^5.0.0",
-        "eslint-plugin-tailwindcss": "^3.17.5",
         "globals": "^15.11.0",
         "html-react-parser": "^5.1.18",
         "lucide-react": "^0.453.0",
         "next": "14.2.15",
-        "next-auth": "^4.24.9",
+        "next-auth": "^4.24.10",
         "next-safe-action": "^7.9.7",
-        "prisma": "^5.21.1",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "react-hook-form": "^7.53.1",
@@ -43,10 +37,11 @@
         "slugify": "^1.6.6",
         "tailwind-merge": "^2.5.4",
         "tailwindcss-animate": "^1.0.7",
-        "typescript-eslint": "^8.11.0",
         "zod": "^3.23.8"
     },
     "devDependencies": {
+        "@eslint/compat": "^1.2.1",
+        "@eslint/js": "^9.13.0",
         "@tailwindcss/typography": "^0.5.15",
         "@types/dompurify": "^3.0.5",
         "@types/node": "^22.7.9",
@@ -54,11 +49,16 @@
         "@types/react-dom": "^18.3.1",
         "eslint": "^9.13.0",
         "eslint-config-next": "14.2.15",
+        "eslint-plugin-react": "^7.37.2",
+        "eslint-plugin-react-hooks": "^5.0.0",
+        "eslint-plugin-tailwindcss": "^3.17.5",
         "postcss": "^8.4.47",
         "prettier": "^3.3.3",
         "prettier-plugin-tailwindcss": "^0.6.8",
+        "prisma": "^5.21.1",
         "tailwindcss": "^3.4.14",
-        "typescript": "^5.6.3"
+        "typescript": "^5.6.3",
+        "typescript-eslint": "^8.11.0"
     },
     "pnpm": {
         "peerDependencyRules": {

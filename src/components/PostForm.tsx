@@ -1,6 +1,5 @@
 'use client'
 
-import { Suspense } from 'react'
 import ReactQuill from 'react-quill'
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -32,7 +31,6 @@ import {
 import { Category, PostFormSchema, PostFormValues } from '@/lib/schemas'
 import { quillFormats, quillModules } from '@/lib/quill-config'
 import { createPost, updatePost } from '@/lib/posts'
-import { LoadingSkeleton } from './LoadingSkeleton'
 
 type CreatePostFormWrapperProps = {
     categories: Category[]
@@ -159,7 +157,6 @@ export const PostForm = ({
         })?.length || 0
 
     return (
-        <Suspense fallback={<LoadingSkeleton />}>
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -300,6 +297,5 @@ export const PostForm = ({
                     </Button>
                 </form>
             </Form>
-        </Suspense>
     )
 }

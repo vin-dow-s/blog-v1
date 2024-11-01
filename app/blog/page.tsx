@@ -22,7 +22,7 @@ const Home = async () => {
     const posts = result?.data
 
     return (
-        <section>
+        <section className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-10">
             {posts
                 ?.toSorted((a, b) => b.id - a.id)
                 .map((post) => (
